@@ -1,0 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&family=Poppins:ital,wght@0,500;1,400&display=swap');
+
+.card-header {
+    font-family: 'Poppins', sans-serif;
+}
+
+.card-body {
+    font-family: 'Montserrat', sans-serif;
+}
+
+button i {
+    transition: all 0.5s;
+}
+
+@media screen and (min-width: 992px) {
+    button:hover i {
+        transform: translateX(5px) rotate(90deg);
+    }
+}
