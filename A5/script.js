@@ -1,6 +1,4 @@
-$(() => {
-    getEvents('events.json');
-})
+$(() => getEvents('events.json'))
 
 const getEvents = url => {
     let loaded = new Promise((resolve, reject) => {
@@ -55,3 +53,9 @@ $('#eventList').on('click', '.form-check-input', function() {
     alert.addClass(`alert-${correct ? 'success' : 'danger'}`);
     alert.text(correct ? 'You are going!' : 'You will not be attending!');
 })
+
+$(window).on("scroll", async () => {
+    if($(window).scrollTop() + $(window).height() > $(document).height() - 100) {
+        getEvents('events.json');
+    }
+});
