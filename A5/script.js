@@ -18,7 +18,7 @@ const getEvents = url => {
 }
 
 const createEventCard = ({ title, description, date, attending }, index) => `
-    <div class="card mb-3">
+    <div class="card mb-3" loading="lazy">
         <div class="card-header">${title}</div>
         <div class="card-body">
             <p>${description}</p>
@@ -47,3 +47,11 @@ const createEventCard = ({ title, description, date, attending }, index) => `
 const sortByDate = json => json.sort(
     (a, b) => new Date(a.date) - new Date(b.date)
 );
+
+$('#eventList').on('click', '.form-check-input', function() {
+    let correct = $(this).parent().data('correct');
+    let alert = $(this).closest('.card').find('.alert');
+    alert.removeClass('alert-success alert-danger');
+    alert.addClass(`alert-${correct ? 'success' : 'danger'}`);
+    alert.text(correct ? 'You are going!' : 'You will not be attending!');
+})
