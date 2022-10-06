@@ -1,51 +1,67 @@
 class UsernamePasswordInput extends React.Component {
     checkUsername = () => {
         let username = document.getElementsByName("username")[0].value;
-        if (username.length < 2 || !username.match(/^[a-zA-Z0-9]+$/) || !username.match(/^[A-Z]/))
+        if (username.length < 2 || !username.match(/^[a-zA-Z0-9]+$/) || !username.match(/^[A-Z]/)) {
             this.props.validateUsername(false);
-        else
+            document.getElementsByName("username")[0].style.color = "red";
+        }
+        else {
             this.props.validateUsername(true);
+            document.getElementsByName("username")[0].style.color = "green";
+        }
     }
 
     checkPass = () => {
         let password = document.getElementsByName("password")[0].value;
-        if (password.length < 8 || !password.match(/\d/) || !password.match(/[A-Z]/)) 
+        if (password.length < 8 || !password.match(/\d/) || !password.match(/[A-Z]/)) {
             this.props.validatePass(false);
-        else
+            document.getElementsByName("password")[0].style.color = "red";
+        }
+        else {
             this.props.validatePass(true);
+            document.getElementsByName("password")[0].style.color = "green";
+        }
     }
     render() {
         return (
-        <div>
-            <input
-            type="text"
-            name="username"
-            placeholder="Username"
-            class="form-control form-control-lg" 
-            onChange={this.checkUsername}
-            />
-            <input
-            type="text"
-            name="password"
-            placeholder="Password"
-            class="form-control form-control-lg" 
-            onChange={this.checkPass}
-            />
-        </div>
+            <div>
+                <input
+                    type="text"
+                    name="username"
+                    placeholder="Username"
+                    class="form-control form-control-lg"
+                    onChange={this.checkUsername}
+                />
+                <input
+                    type="text"
+                    name="password"
+                    placeholder="Password"
+                    class="form-control form-control-lg"
+                    onChange={this.checkPass}
+                />
+            </div>
         );
     }
 }
 
 class LoginForm extends React.Component {
-    enableButton(flag) {
-        document.getElementsByTagName("button")[0].disabled = !flag;
+    constructor() {
+        super();
+
+        this.state = {
+            disabled: true
+        };
+    }
+
+    enableButton = (flag) => {
+       this.setState({disabled: !flag});
     }
 
     render() {
         return (
             <div class="input-group">
                 <UsernamePasswordInput validateUsername={this.enableButton} validatePass={this.enableButton} />
-                <button type="button" class="btn btn-primary" disabled onClick={this.props.loginFn}>Submit</button>
+                <button type="button" class="btn btn-primary" onClick={this.props.loginFn} disabled={this.state.disabled}>Submit</button>
             </div>
         );
     }
@@ -56,7 +72,7 @@ class ProfilePage extends React.Component {
         return (
             <div>
                 <h1>Hi, welcome back {this.props.username}</h1>
-                <button type="button" class="btn btn-primary">Log out</button>
+                <button type="button" class="btn btn-primary" onClick={this.props.logoutFn}>Log out</button>
             </div>
         );
     }
@@ -78,13 +94,20 @@ class Container extends React.Component {
         });
     }
 
+    logout = () => {
+        this.setState({
+            loggedIn: false,
+            username: ""
+        });
+    }
+
     render() {
         return (
             <div>
                 {
                     this.state.loggedIn ?
-                    <ProfilePage username={this.state.username} /> :
-                    <LoginForm loginFn={this.login} />
+                        <ProfilePage username={this.state.username} logoutFn={this.logout} /> :
+                        <LoginForm loginFn={this.login} />
                 }
             </div>
         );
