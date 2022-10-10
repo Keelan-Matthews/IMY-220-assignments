@@ -49,18 +49,28 @@ class LoginForm extends React.Component {
         super();
 
         this.state = {
-            disabled: true
+            disabled: true,
+            validUsername: false,
+            validPass: false
         };
     }
 
-    enableButton = (flag) => {
-       this.setState({disabled: !flag});
+    enableUsername = (flag) => {
+        this.setState({validUsername: flag});
+        let isDisabled = !(this.state.validPass && flag);
+        this.setState({disabled: isDisabled});
+    }
+
+    enablePass = (flag) => {
+        this.setState({validPass: flag});
+        let isDisabled = !(this.state.validUsername && flag);
+        this.setState({disabled: isDisabled});
     }
 
     render() {
         return (
             <div class="input-group">
-                <UsernamePasswordInput validateUsername={this.enableButton} validatePass={this.enableButton} />
+                <UsernamePasswordInput validateUsername={this.enableUsername} validatePass={this.enablePass} />
                 <button type="button" class="btn btn-primary" onClick={this.props.loginFn} disabled={this.state.disabled}>Submit</button>
             </div>
         );
