@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "webpack && babel server.js -d dist",
+    "start": "npm run build && node dist/server.js"
   },
   "keywords": [],
   "author": "",
