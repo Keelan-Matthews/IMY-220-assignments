@@ -1,3 +1,7 @@
+import React from 'react';
+import { createRoot } from 'react-dom/client';;
+import EventList from './components/EventList.jsx';
+
 var events = [
 	{name: "Picnic", description: "Picnic in the park", date: "2022/09/03"},
 	{name: "Rock concert", description: "Rock concert at the football stadium", date: "2022/08/13"},
@@ -9,3 +13,16 @@ var events = [
 	{name: "Date night", description: "Date night at a fancy restaurant", date: "2022/10/26"},
 	{name: "Hike", description: "A hike on the otter trail", date: "2022/10/26"},
 ];
+
+class Index extends React.Component {
+	render() {
+		return (
+			<div className="container">
+				<EventList theDate={"2022/09/03"} events={events} />
+			</div>
+		);
+	}
+}
+
+createRoot(document.getElementById('root')).render(<Index />);
+
