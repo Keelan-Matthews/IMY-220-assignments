@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 export default class Event extends React.Component {
 	render() {
@@ -12,4 +13,10 @@ export default class Event extends React.Component {
 			</div>
 		)
 	}
+}
+
+Event.propTypes = {
+	name: PropTypes.string.isRequired,
+	description: PropTypes.string.isRequired,
+	date: PropTypes.string.isRequired
 }
