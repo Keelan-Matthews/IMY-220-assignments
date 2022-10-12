@@ -1,6 +1,7 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';;
 import EventList from './components/EventList.jsx';
+import "bootstrap/dist/css/bootstrap.min.css";
 
 var events = [
 	{name: "Picnic", description: "Picnic in the park", date: "2022/09/03"},
@@ -17,7 +18,7 @@ var events = [
 class Index extends React.Component {
 	render() {
 		return (
-			<div className="container">
+			<div className="container my-5">
 				<EventList theDate={"2022/09/03"} events={events} />
 			</div>
 		);
