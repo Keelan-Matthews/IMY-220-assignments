@@ -26,7 +26,9 @@ http.listen(port, /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_regeneratorRunti
         case 0:
           console.log("Listening on localhost:".concat(port));
           io.on('connection', function (socket) {
-            socket.emit('classes', getClasses());
+            getClasses().then(function (classes) {
+              socket.emit('classes', classes);
+            });
           });
         case 2:
         case "end":

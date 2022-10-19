@@ -20,7 +20,9 @@ http.listen(port, async () => {
 	console.log(`Listening on localhost:${port}`);
 
 	io.on('connection', (socket) => {
-		socket.emit('classes', getClasses());
+		getClasses().then((classes) => {
+			socket.emit('classes', classes);
+		});
 	});
 });
 

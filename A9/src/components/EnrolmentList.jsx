@@ -2,10 +2,6 @@ import React from 'react';
 
 export default class EnrolmentList extends React.Component {
 
-    onComponentDidMount() {
-        console.log(this.props.classes);
-    }
-    
     render() {
         return (
             <div>
@@ -16,7 +12,7 @@ export default class EnrolmentList extends React.Component {
                     </button>
                     <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         {
-                            this.props.classes.map((item, index) => <span class="dropdown-item" data-code={item.code} key={index}>{item.code}</span>)
+                            this.props.classes.map((item, index) => <span className="dropdown-item" data-code={item.code} key={index}>{item.code}</span>)
                         }
                     </div>
                 </div>
