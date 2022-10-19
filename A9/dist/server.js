@@ -19,18 +19,21 @@ var client = new MongoClient(uri);
 app.get('/', function (req, res) {
   res.sendFile(__dirname + '/index.html');
 });
+io.on('connection', function (socket) {
+  getClasses().then(function (classes) {
+    socket.emit('classes', classes);
+  });
+  socket.on('getEnrolledStudents', function (code) {
+    getEnrolledStudents(code);
+  });
+});
 http.listen(port, /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
   return _regeneratorRuntime().wrap(function _callee$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
           console.log("Listening on localhost:".concat(port));
-          io.on('connection', function (socket) {
-            getClasses().then(function (classes) {
-              socket.emit('classes', classes);
-            });
-          });
-        case 2:
+        case 1:
         case "end":
           return _context.stop();
       }
@@ -47,10 +50,11 @@ function _getClasses() {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            _context2.prev = 0;
-            _context2.next = 3;
+            console.log("Getting classes");
+            _context2.prev = 1;
+            _context2.next = 4;
             return client.connect();
-          case 3:
+          case 4:
             database = client.db('DBExample');
             collection = database.collection('classes');
             options = {
@@ -61,24 +65,67 @@ function _getClasses() {
               }
             };
             cursor = collection.find({}, options);
-            _context2.next = 9;
+            _context2.next = 10;
             return cursor.toArray();
-          case 9:
+          case 10:
             results = _context2.sent;
             console.log(results);
             return _context2.abrupt("return", results);
-          case 12:
-            _context2.prev = 12;
-            _context2.next = 15;
+          case 13:
+            _context2.prev = 13;
+            _context2.next = 16;
             return client.close();
-          case 15:
-            return _context2.finish(12);
           case 16:
+            return _context2.finish(13);
+          case 17:
           case "end":
             return _context2.stop();
         }
       }
-    }, _callee2, null, [[0,, 12, 16]]);
+    }, _callee2, null, [[1,, 13, 17]]);
   }));
   return _getClasses.apply(this, arguments);
+}
+function getEnrolledStudents(_x) {
+  return _getEnrolledStudents.apply(this, arguments);
+}
+function _getEnrolledStudents() {
+  _getEnrolledStudents = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(code) {
+    var database, collection, query, cursor, results;
+    return _regeneratorRuntime().wrap(function _callee3$(_context3) {
+      while (1) {
+        switch (_context3.prev = _context3.next) {
+          case 0:
+            console.log("Getting students enrolled in ".concat(code));
+            _context3.prev = 1;
+            _context3.next = 4;
+            return client.connect();
+          case 4:
+            database = client.db('DBExample');
+            collection = database.collection('users');
+            query = {
+              enrolled: {
+                $all: [code]
+              }
+            };
+            cursor = collection.find(query);
+            _context3.next = 10;
+            return cursor.toArray();
+          case 10:
+            results = _context3.sent;
+            console.log(results);
+          case 12:
+            _context3.prev = 12;
+            _context3.next = 15;
+            return client.close();
+          case 15:
+            return _context3.finish(12);
+          case 16:
+          case "end":
+            return _context3.stop();
+        }
+      }
+    }, _callee3, null, [[1,, 12, 16]]);
+  }));
+  return _getEnrolledStudents.apply(this, arguments);
 }

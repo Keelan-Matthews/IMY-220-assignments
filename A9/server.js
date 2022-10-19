@@ -16,17 +16,22 @@ app.get('/', (req, res) => {
 	res.sendFile(__dirname + '/index.html');
 });
 
-http.listen(port, async () => {
-	console.log(`Listening on localhost:${port}`);
+io.on('connection', (socket) => {
+	getClasses().then((classes) => {
+		socket.emit('classes', classes);
+	});
 
-	io.on('connection', (socket) => {
-		getClasses().then((classes) => {
-			socket.emit('classes', classes);
-		});
+	socket.on('getEnrolledStudents', (code) => {
+		getEnrolledStudents(code);
 	});
 });
 
+http.listen(port, async () => {
+	console.log(`Listening on localhost:${port}`);
+});
+
 async function getClasses() {
+	console.log("Getting classes");
 	try {
 		await client.connect();
 		const database = client.db('DBExample');
@@ -39,6 +44,22 @@ async function getClasses() {
 		const results = await cursor.toArray();
 		console.log(results);
 		return results;
+	} finally {
+		await client.close();
+	}
+}
+
+async function getEnrolledStudents(code) {
+	console.log(`Getting students enrolled in ${code}`);
+	try {
+		await client.connect();
+		const database = client.db('DBExample');
+		const collection = database.collection('users');
+		const query = {enrolled: {$all: [code]}};
+		
+		const cursor = collection.find(query);
+		const results = await cursor.toArray();
+		console.log(results);
 	} finally {
 		await client.close();
 	}

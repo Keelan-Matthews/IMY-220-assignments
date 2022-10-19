@@ -12,7 +12,7 @@ export default class EnrolmentList extends React.Component {
                     </button>
                     <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         {
-                            this.props.classes.map((item, index) => <span className="dropdown-item" data-code={item.code} key={index}>{item.code}</span>)
+                            this.props.classes.map((item, index) => <span className="dropdown-item" data-code={item.code} key={index} onClick={this.props.getEnrolledStudents}>{item.code}</span>)
                         }
                     </div>
                 </div>

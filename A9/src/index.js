@@ -10,6 +10,7 @@ class Index extends React.Component {
 		this.state = {
 			classes: []
 		};
+		this.getEnrolledStudents = this.getEnrolledStudents.bind(this);
 	}
 	
 	componentDidMount() {
@@ -18,10 +19,14 @@ class Index extends React.Component {
 		});
 	}
 
+	getEnrolledStudents(e) {
+		socket.emit('getEnrolledStudents', e.target.dataset.code);
+	}
+
 	render() {
 		return (
 			<div className="container">
-				<EnrolmentList classes={this.state.classes} />
+				<EnrolmentList classes={this.state.classes} getEnrolledStudents={this.getEnrolledStudents} />
 			</div>
 		);
 	}
